@@ -1,0 +1,37 @@
+{
+  "name": "cyber-security-risk-management-construct-interactive-training-dashboard-",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Cyber Security Risk Management Construct Interactive Training Dashboard",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^19.2.4",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.2.9",
+    "@heroicons/react": "^2.2.0",
+    "@tailwindcss/postcss": "^4.1.17",
+    "autoprefixer": "^10.4.22",
+    "framer-motion": "^12.23.24",
+    "lucide-react": "^0.553.0",
+    "postcss": "^8.5.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-markdown": "^10.1.0",
+    "recharts": "^3.4.1",
+    "tailwindcss": "^4.1.17"
+  }
+}
