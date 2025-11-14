@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive Cyber Security Risk Management Training Dashboard">
+    <meta name="theme-color" content="#1a237e">
+    <title>Cyber Security Training Dashboard</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512x512.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>🛡️ Cyber Security Risk Management</h1>
+                <p class="subtitle">Interactive Training Dashboard</p>
+            </div>
+            <button id="installBtn" class="install-btn" style="display: none;">Install App</button>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+            <button class="tab-btn" data-tab="modules">Training Modules</button>
+            <button class="tab-btn" data-tab="quiz">Assessment</button>
+            <button class="tab-btn" data-tab="progress">Progress</button>
+        </nav>
+
+        <main>
+            <!-- Dashboard Tab -->
+            <section id="dashboard" class="tab-content active">
+                <h2>Welcome to Cyber Security Training</h2>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>📊 Your Progress</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="overallProgress" style="width: 0%"></div>
+                        </div>
+                        <p class="progress-text"><span id="progressPercent">0</span>% Complete</p>
+                    </div>
+                    <div class="card">
+                        <h3>🎯 Completed Modules</h3>
+                        <p class="stat-number" id="completedModules">0</p>
+                        <p class="stat-label">of 5 modules</p>
+                    </div>
+                    <div class="card">
+                        <h3>🏆 Quiz Score</h3>
+                        <p class="stat-number" id="quizScore">0</p>
+                        <p class="stat-label">out of 100</p>
+                    </div>
+                    <div class="card">
+                        <h3>⏱️ Time Spent</h3>
+                        <p class="stat-number" id="timeSpent">0</p>
+                        <p class="stat-label">minutes</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Training Modules Tab -->
+            <section id="modules" class="tab-content">
+                <h2>Training Modules</h2>
+                <div class="modules-list">
+                    <div class="module-card" data-module="1">
+                        <div class="module-header">
+                            <h3>1. Risk Assessment Fundamentals</h3>
+                            <span class="module-status" data-status="incomplete">📌 Not Started</span>
+                        </div>
+                        <p>Learn the basics of identifying and assessing cybersecurity risks in your organization.</p>
+                        <button class="btn-primary" onclick="toggleModule(1)">Start Module</button>
+                        <div class="module-content" style="display: none;">
+                            <ul>
+                                <li>Understanding threat landscape</li>
+                                <li>Asset identification and classification</li>
+                                <li>Vulnerability assessment techniques</li>
+                                <li>Risk calculation methodologies</li>
+                            </ul>
+                            <button class="btn-success" onclick="completeModule(1)">Mark as Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="module-card" data-module="2">
+                        <div class="module-header">
+                            <h3>2. Threat Intelligence</h3>
+                            <span class="module-status" data-status="incomplete">📌 Not Started</span>
+                        </div>
+                        <p>Understand how to gather, analyze, and apply threat intelligence to protect your systems.</p>
+                        <button class="btn-primary" onclick="toggleModule(2)">Start Module</button>
+                        <div class="module-content" style="display: none;">
+                            <ul>
+                                <li>Types of threat intelligence</li>
+                                <li>OSINT (Open Source Intelligence) gathering</li>
+                                <li>Threat actor profiling</li>
+                                <li>Indicators of Compromise (IOCs)</li>
+                            </ul>
+                            <button class="btn-success" onclick="completeModule(2)">Mark as Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="module-card" data-module="3">
+                        <div class="module-header">
+                            <h3>3. Security Controls & Mitigation</h3>
+                            <span class="module-status" data-status="incomplete">📌 Not Started</span>
+                        </div>
+                        <p>Explore various security controls and mitigation strategies to reduce risk exposure.</p>
+                        <button class="btn-primary" onclick="toggleModule(3)">Start Module</button>
+                        <div class="module-content" style="display: none;">
+                            <ul>
+                                <li>Preventive, detective, and corrective controls</li>
+                                <li>Defense in depth strategy</li>
+                                <li>Access control mechanisms</li>
+                                <li>Incident response planning</li>
+                            </ul>
+                            <button class="btn-success" onclick="completeModule(3)">Mark as Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="module-card" data-module="4">
+                        <div class="module-header">
+                            <h3>4. Compliance & Frameworks</h3>
+                            <span class="module-status" data-status="incomplete">📌 Not Started</span>
+                        </div>
+                        <p>Learn about industry standards and compliance frameworks for risk management.</p>
+                        <button class="btn-primary" onclick="toggleModule(4)">Start Module</button>
+                        <div class="module-content" style="display: none;">
+                            <ul>
+                                <li>NIST Cybersecurity Framework</li>
+                                <li>ISO 27001/27002 standards</li>
+                                <li>GDPR and privacy regulations</li>
+                                <li>Industry-specific compliance (PCI-DSS, HIPAA)</li>
+                            </ul>
+                            <button class="btn-success" onclick="completeModule(4)">Mark as Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="module-card" data-module="5">
+                        <div class="module-header">
+                            <h3>5. Continuous Monitoring</h3>
+                            <span class="module-status" data-status="incomplete">📌 Not Started</span>
+                        </div>
+                        <p>Discover best practices for ongoing security monitoring and risk management.</p>
+                        <button class="btn-primary" onclick="toggleModule(5)">Start Module</button>
+                        <div class="module-content" style="display: none;">
+                            <ul>
+                                <li>Security Information and Event Management (SIEM)</li>
+                                <li>Log analysis and correlation</li>
+                                <li>Key performance indicators (KPIs)</li>
+                                <li>Reporting and communication</li>
+                            </ul>
+                            <button class="btn-success" onclick="completeModule(5)">Mark as Complete</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Tab -->
+            <section id="quiz" class="tab-content">
+                <h2>Security Assessment Quiz</h2>
+                <div id="quizContainer" class="quiz-container">
+                    <div class="quiz-question" data-question="1">
+                        <p class="question-text">1. What is the primary goal of risk assessment?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q1" value="a"> Eliminate all risks</label>
+                            <label><input type="radio" name="q1" value="b"> Identify and prioritize risks</label>
+                            <label><input type="radio" name="q1" value="c"> Implement all security controls</label>
+                            <label><input type="radio" name="q1" value="d"> Achieve 100% security</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" data-question="2">
+                        <p class="question-text">2. Which framework is widely used for cybersecurity risk management?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q2" value="a"> NIST Cybersecurity Framework</label>
+                            <label><input type="radio" name="q2" value="b"> Facebook Framework</label>
+                            <label><input type="radio" name="q2" value="c"> Google Security Standard</label>
+                            <label><input type="radio" name="q2" value="d"> Microsoft Office Suite</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" data-question="3">
+                        <p class="question-text">3. What does IOC stand for in cybersecurity?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q3" value="a"> Internet Operating Code</label>
+                            <label><input type="radio" name="q3" value="b"> Indicator of Compromise</label>
+                            <label><input type="radio" name="q3" value="c"> Internal Operational Control</label>
+                            <label><input type="radio" name="q3" value="d"> International Oversight Committee</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" data-question="4">
+                        <p class="question-text">4. What type of control detects security incidents after they occur?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q4" value="a"> Preventive control</label>
+                            <label><input type="radio" name="q4" value="b"> Detective control</label>
+                            <label><input type="radio" name="q4" value="c"> Corrective control</label>
+                            <label><input type="radio" name="q4" value="d"> Administrative control</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" data-question="5">
+                        <p class="question-text">5. What does SIEM stand for?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q5" value="a"> Security Internet Email Management</label>
+                            <label><input type="radio" name="q5" value="b"> System Integration and Event Monitoring</label>
+                            <label><input type="radio" name="q5" value="c"> Security Information and Event Management</label>
+                            <label><input type="radio" name="q5" value="d"> Secure Internal Enterprise Mechanism</label>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" onclick="submitQuiz()">Submit Quiz</button>
+                    <div id="quizResults" style="display: none;"></div>
+                </div>
+            </section>
+
+            <!-- Progress Tab -->
+            <section id="progress" class="tab-content">
+                <h2>Your Learning Progress</h2>
+                <div class="progress-details">
+                    <div class="card">
+                        <h3>Module Completion</h3>
+                        <div class="module-progress-list" id="moduleProgressList">
+                            <div class="progress-item">
+                                <span>Risk Assessment Fundamentals</span>
+                                <span class="status-badge incomplete">Incomplete</span>
+                            </div>
+                            <div class="progress-item">
+                                <span>Threat Intelligence</span>
+                                <span class="status-badge incomplete">Incomplete</span>
+                            </div>
+                            <div class="progress-item">
+                                <span>Security Controls & Mitigation</span>
+                                <span class="status-badge incomplete">Incomplete</span>
+                            </div>
+                            <div class="progress-item">
+                                <span>Compliance & Frameworks</span>
+                                <span class="status-badge incomplete">Incomplete</span>
+                            </div>
+                            <div class="progress-item">
+                                <span>Continuous Monitoring</span>
+                                <span class="status-badge incomplete">Incomplete</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Achievements</h3>
+                        <div id="achievements" class="achievements-list">
+                            <div class="achievement locked">🎖️ First Module - Complete your first training module</div>
+                            <div class="achievement locked">🌟 Half Way - Complete 3 modules</div>
+                            <div class="achievement locked">🏆 Master - Complete all modules</div>
+                            <div class="achievement locked">🎯 Quiz Expert - Score 80% or higher on the quiz</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Cyber Security Training Dashboard | PWA Enabled</p>
+            <p id="onlineStatus">🟢 Online</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
