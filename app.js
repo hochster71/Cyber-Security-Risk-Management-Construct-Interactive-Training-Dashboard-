@@ -11,6 +11,69 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// Theme Toggle Functionality
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.querySelector('.theme-toggle-icon');
+const themeText = themeToggle.querySelector('span:last-child');
+
+// Load saved theme
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+updateThemeButton(savedTheme);
+
+function updateThemeButton(theme) {
+    if (theme === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Light Mode';
+    } else {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Dark Mode';
+    }
+}
+
+themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeButton(newTheme);
+});
+
+// Modal Functions
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal')) {
+        closeModal(e.target.id);
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const activeModal = document.querySelector('.modal.active');
+        if (activeModal) {
+            closeModal(activeModal.id);
+        }
+    }
+});
+
 // PWA Install Prompt
 let deferredPrompt;
 const installBtn = document.getElementById('installBtn');
@@ -93,8 +156,16 @@ class TrainingData {
         const completed = this.data.completedModules.length;
         const percentage = Math.round((completed / totalModules) * 100);
 
-        document.getElementById('progressPercent').textContent = percentage;
-        document.getElementById('overallProgress').style.width = percentage + '%';
+        // Update liquid progress display
+        const liquidProgress = document.getElementById('liquidProgress');
+        const liquidProgressText = document.getElementById('liquidProgressText');
+        if (liquidProgress) {
+            liquidProgress.style.height = percentage + '%';
+        }
+        if (liquidProgressText) {
+            liquidProgressText.textContent = percentage + '%';
+        }
+        
         document.getElementById('completedModules').textContent = completed;
         document.getElementById('quizScore').textContent = this.data.quizScore;
 
@@ -104,11 +175,11 @@ class TrainingData {
 
     updateProgressTab() {
         const modules = [
-            'Risk Assessment Fundamentals',
-            'Threat Intelligence',
-            'Security Controls & Mitigation',
-            'Compliance & Frameworks',
-            'Continuous Monitoring'
+            'Design Phase',
+            'Build Phase',
+            'Test Phase',
+            'Onboard Phase',
+            'Operations Phase'
         ];
 
         const progressList = document.querySelectorAll('.progress-item');

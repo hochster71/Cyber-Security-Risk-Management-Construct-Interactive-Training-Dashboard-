@@ -17,9 +17,15 @@
         <header>
             <div class="header-content">
                 <h1>🛡️ Cyber Security Risk Management</h1>
-                <p class="subtitle">Interactive Training Dashboard</p>
+                <p class="subtitle">Interactive Training Dashboard - CSRMC Framework</p>
             </div>
-            <button id="installBtn" class="install-btn" style="display: none;">Install App</button>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <button id="themeToggle" class="theme-toggle">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <span>Dark Mode</span>
+                </button>
+                <button id="installBtn" class="install-btn" style="display: none;">Install App</button>
+            </div>
         </header>
 
         <nav class="nav-tabs">
@@ -32,19 +38,25 @@
         <main>
             <!-- Dashboard Tab -->
             <section id="dashboard" class="tab-content active">
-                <h2>Welcome to Cyber Security Training</h2>
+                <h2>Welcome to CSRMC Training</h2>
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                    Based on the U.S. Department of War's Cybersecurity Risk Management Construct (September 2025)
+                </p>
                 <div class="dashboard-grid">
                     <div class="card">
                         <h3>📊 Your Progress</h3>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="overallProgress" style="width: 0%"></div>
+                        <div class="liquid-progress">
+                            <div class="liquid-fill" id="liquidProgress" style="height: 0%">
+                                <div class="liquid-wave"></div>
+                                <div class="liquid-wave"></div>
+                            </div>
+                            <div class="liquid-text" id="liquidProgressText">0%</div>
                         </div>
-                        <p class="progress-text"><span id="progressPercent">0</span>% Complete</p>
                     </div>
                     <div class="card">
                         <h3>🎯 Completed Modules</h3>
                         <p class="stat-number" id="completedModules">0</p>
-                        <p class="stat-label">of 5 modules</p>
+                        <p class="stat-label">of 5 CSRMC phases</p>
                     </div>
                     <div class="card">
                         <h3>🏆 Quiz Score</h3>
@@ -61,97 +73,155 @@
 
             <!-- Training Modules Tab -->
             <section id="modules" class="tab-content">
-                <h2>Training Modules</h2>
+                <h2>CSRMC Five Phases</h2>
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                    The Cybersecurity Risk Management Construct lifecycle phases from the U.S. Department of War
+                </p>
                 <div class="modules-list">
-                    <div class="module-card" data-module="1">
+                    <div class="phase-card module-card" data-module="1">
                         <div class="module-header">
-                            <h3>1. Risk Assessment Fundamentals</h3>
+                            <div style="display: flex; align-items: center;">
+                                <span class="phase-number">1</span>
+                                <h3 style="margin: 0;">Design Phase</h3>
+                            </div>
                             <span class="module-status" data-status="incomplete">📌 Not Started</span>
                         </div>
-                        <p>Learn the basics of identifying and assessing cybersecurity risks in your organization.</p>
-                        <button class="btn-primary" onclick="toggleModule(1)">Start Module</button>
+                        <p>Cybersecurity and resilience embedded at the outset, considering operational needs and survivability from day one.</p>
+                        <button class="btn-primary" onclick="toggleModule(1)">Start Phase</button>
+                        <button class="info-btn" onclick="openModal('designModal')">
+                            <span class="info-icon">ℹ️</span>
+                            Learn More
+                        </button>
                         <div class="module-content" style="display: none;">
                             <ul>
-                                <li>Understanding threat landscape</li>
-                                <li>Asset identification and classification</li>
-                                <li>Vulnerability assessment techniques</li>
-                                <li>Risk calculation methodologies</li>
+                                <li>Engage all stakeholders (Mission Owner, System Owner, Engineers, Cybersecurity Service Providers)</li>
+                                <li>Incorporate security requirements from mission inception</li>
+                                <li>Consider operational survivability and resilience</li>
+                                <li>Establish security architecture and controls framework</li>
                             </ul>
                             <button class="btn-success" onclick="completeModule(1)">Mark as Complete</button>
                         </div>
                     </div>
 
-                    <div class="module-card" data-module="2">
+                    <div class="phase-card module-card" data-module="2">
                         <div class="module-header">
-                            <h3>2. Threat Intelligence</h3>
+                            <div style="display: flex; align-items: center;">
+                                <span class="phase-number">2</span>
+                                <h3 style="margin: 0;">Build Phase</h3>
+                            </div>
                             <span class="module-status" data-status="incomplete">📌 Not Started</span>
                         </div>
-                        <p>Understand how to gather, analyze, and apply threat intelligence to protect your systems.</p>
-                        <button class="btn-primary" onclick="toggleModule(2)">Start Module</button>
+                        <p>Implementation of secure system designs and achievement of Initial Operating Capability (IOC).</p>
+                        <button class="btn-primary" onclick="toggleModule(2)">Start Phase</button>
+                        <button class="info-btn" onclick="openModal('buildModal')">
+                            <span class="info-icon">ℹ️</span>
+                            Learn More
+                        </button>
                         <div class="module-content" style="display: none;">
                             <ul>
-                                <li>Types of threat intelligence</li>
-                                <li>OSINT (Open Source Intelligence) gathering</li>
-                                <li>Threat actor profiling</li>
-                                <li>Indicators of Compromise (IOCs)</li>
+                                <li>Implement DevSecOps practices for continuous security integration</li>
+                                <li>Apply security controls from the Critical Controls framework</li>
+                                <li>Automate security testing in CI/CD pipelines</li>
+                                <li>Achieve Initial Operating Capability (IOC) with baseline security</li>
                             </ul>
                             <button class="btn-success" onclick="completeModule(2)">Mark as Complete</button>
                         </div>
                     </div>
 
-                    <div class="module-card" data-module="3">
+                    <div class="phase-card module-card" data-module="3">
                         <div class="module-header">
-                            <h3>3. Security Controls & Mitigation</h3>
+                            <div style="display: flex; align-items: center;">
+                                <span class="phase-number">3</span>
+                                <h3 style="margin: 0;">Test Phase</h3>
+                            </div>
                             <span class="module-status" data-status="incomplete">📌 Not Started</span>
                         </div>
-                        <p>Explore various security controls and mitigation strategies to reduce risk exposure.</p>
-                        <button class="btn-primary" onclick="toggleModule(3)">Start Module</button>
+                        <p>Comprehensive security validation, including penetration testing and vulnerability assessment before FOC.</p>
+                        <button class="btn-primary" onclick="toggleModule(3)">Start Phase</button>
+                        <button class="info-btn" onclick="openModal('testModal')">
+                            <span class="info-icon">ℹ️</span>
+                            Learn More
+                        </button>
                         <div class="module-content" style="display: none;">
                             <ul>
-                                <li>Preventive, detective, and corrective controls</li>
-                                <li>Defense in depth strategy</li>
-                                <li>Access control mechanisms</li>
-                                <li>Incident response planning</li>
+                                <li>Conduct threat-informed cybersecurity assessments</li>
+                                <li>Perform penetration testing and vulnerability scans</li>
+                                <li>Validate security controls effectiveness</li>
+                                <li>Prepare for Full Operating Capability (FOC)</li>
                             </ul>
                             <button class="btn-success" onclick="completeModule(3)">Mark as Complete</button>
                         </div>
                     </div>
 
-                    <div class="module-card" data-module="4">
+                    <div class="phase-card module-card" data-module="4">
                         <div class="module-header">
-                            <h3>4. Compliance & Frameworks</h3>
+                            <div style="display: flex; align-items: center;">
+                                <span class="phase-number">4</span>
+                                <h3 style="margin: 0;">Onboard Phase</h3>
+                            </div>
                             <span class="module-status" data-status="incomplete">📌 Not Started</span>
                         </div>
-                        <p>Learn about industry standards and compliance frameworks for risk management.</p>
-                        <button class="btn-primary" onclick="toggleModule(4)">Start Module</button>
+                        <p>Systems are fully integrated and automated monitoring begins, enabling active defense at deployment.</p>
+                        <button class="btn-primary" onclick="toggleModule(4)">Start Phase</button>
+                        <button class="info-btn" onclick="openModal('onboardModal')">
+                            <span class="info-icon">ℹ️</span>
+                            Learn More
+                        </button>
                         <div class="module-content" style="display: none;">
                             <ul>
-                                <li>NIST Cybersecurity Framework</li>
-                                <li>ISO 27001/27002 standards</li>
-                                <li>GDPR and privacy regulations</li>
-                                <li>Industry-specific compliance (PCI-DSS, HIPAA)</li>
+                                <li>Integrate with enterprise security services</li>
+                                <li>Enable continuous monitoring and constant ATO</li>
+                                <li>Establish automated threat detection and response</li>
+                                <li>Provide operational visibility to decision-makers</li>
                             </ul>
                             <button class="btn-success" onclick="completeModule(4)">Mark as Complete</button>
                         </div>
                     </div>
 
-                    <div class="module-card" data-module="5">
+                    <div class="phase-card module-card" data-module="5">
                         <div class="module-header">
-                            <h3>5. Continuous Monitoring</h3>
+                            <div style="display: flex; align-items: center;">
+                                <span class="phase-number">5</span>
+                                <h3 style="margin: 0;">Operations Phase</h3>
+                            </div>
                             <span class="module-status" data-status="incomplete">📌 Not Started</span>
                         </div>
-                        <p>Discover best practices for ongoing security monitoring and risk management.</p>
-                        <button class="btn-primary" onclick="toggleModule(5)">Start Module</button>
+                        <p>Continuous, real-time monitoring with dashboard alerts, rapid threat detection, and direct response capabilities.</p>
+                        <button class="btn-primary" onclick="toggleModule(5)">Start Phase</button>
+                        <button class="info-btn" onclick="openModal('operationsModal')">
+                            <span class="info-icon">ℹ️</span>
+                            Learn More
+                        </button>
                         <div class="module-content" style="display: none;">
                             <ul>
-                                <li>Security Information and Event Management (SIEM)</li>
-                                <li>Log analysis and correlation</li>
-                                <li>Key performance indicators (KPIs)</li>
-                                <li>Reporting and communication</li>
+                                <li>Maintain real-time cybersecurity situational awareness</li>
+                                <li>Execute rapid response to high-risk scenarios</li>
+                                <li>Ensure cyber survivability during operations</li>
+                                <li>Continuously adapt to evolving threat landscape</li>
                             </ul>
                             <button class="btn-success" onclick="completeModule(5)">Mark as Complete</button>
                         </div>
                     </div>
+                </div>
+                
+                <div style="margin-top: 2rem; padding: 1.5rem; background: var(--card-bg); border-radius: 8px; box-shadow: var(--shadow);">
+                    <h3 style="color: var(--accent-color); margin-bottom: 1rem;">CSRMC Ten Strategic Tenets</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <span class="tenet-badge" onclick="openModal('tenetsModal')" style="cursor: pointer;">1. Automation</span>
+                        <span class="tenet-badge" onclick="openModal('tenetsModal')" style="cursor: pointer;">2. Critical Controls</span>
+                        <span class="tenet-badge" onclick="openModal('tenetsModal')" style="cursor: pointer;">3. Continuous Monitoring</span>
+                        <span class="tenet-badge" onclick="openModal('tenetsModal')" style="cursor: pointer;">4. DevSecOps</span>
+                        <span class="tenet-badge" onclick="openModal('tenetsModal')" style="cursor: pointer;">5. Cyber Survivability</span>
+                        <span class="tenet-badge" onclick="openModal('tenetsModal')" style="cursor: pointer;">6. Training</span>
+                        <span class="tenet-badge" onclick="openModal('tenetsModal')" style="cursor: pointer;">7. Enterprise Services</span>
+                        <span class="tenet-badge" onclick="openModal('tenetsModal')" style="cursor: pointer;">8. Operationalization</span>
+                        <span class="tenet-badge" onclick="openModal('tenetsModal')" style="cursor: pointer;">9. Reciprocity</span>
+                        <span class="tenet-badge" onclick="openModal('tenetsModal')" style="cursor: pointer;">10. Threat-Informed</span>
+                    </div>
+                    <button class="info-btn" onclick="openModal('tenetsModal')" style="margin-top: 1rem;">
+                        <span class="info-icon">ℹ️</span>
+                        View All Tenets Details
+                    </button>
                 </div>
             </section>
 
@@ -219,26 +289,26 @@
                 <h2>Your Learning Progress</h2>
                 <div class="progress-details">
                     <div class="card">
-                        <h3>Module Completion</h3>
+                        <h3>CSRMC Phase Completion</h3>
                         <div class="module-progress-list" id="moduleProgressList">
                             <div class="progress-item">
-                                <span>Risk Assessment Fundamentals</span>
+                                <span>Design Phase</span>
                                 <span class="status-badge incomplete">Incomplete</span>
                             </div>
                             <div class="progress-item">
-                                <span>Threat Intelligence</span>
+                                <span>Build Phase</span>
                                 <span class="status-badge incomplete">Incomplete</span>
                             </div>
                             <div class="progress-item">
-                                <span>Security Controls & Mitigation</span>
+                                <span>Test Phase</span>
                                 <span class="status-badge incomplete">Incomplete</span>
                             </div>
                             <div class="progress-item">
-                                <span>Compliance & Frameworks</span>
+                                <span>Onboard Phase</span>
                                 <span class="status-badge incomplete">Incomplete</span>
                             </div>
                             <div class="progress-item">
-                                <span>Continuous Monitoring</span>
+                                <span>Operations Phase</span>
                                 <span class="status-badge incomplete">Incomplete</span>
                             </div>
                         </div>
@@ -246,9 +316,9 @@
                     <div class="card">
                         <h3>Achievements</h3>
                         <div id="achievements" class="achievements-list">
-                            <div class="achievement locked">🎖️ First Module - Complete your first training module</div>
-                            <div class="achievement locked">🌟 Half Way - Complete 3 modules</div>
-                            <div class="achievement locked">🏆 Master - Complete all modules</div>
+                            <div class="achievement locked">🎖️ First Phase - Complete your first CSRMC phase</div>
+                            <div class="achievement locked">🌟 Half Way - Complete 3 phases</div>
+                            <div class="achievement locked">🏆 CSRMC Master - Complete all 5 phases</div>
                             <div class="achievement locked">🎯 Quiz Expert - Score 80% or higher on the quiz</div>
                         </div>
                     </div>
@@ -257,9 +327,265 @@
         </main>
 
         <footer>
-            <p>&copy; 2025 Cyber Security Training Dashboard | PWA Enabled</p>
+            <p>&copy; 2025 Cyber Security Training Dashboard | PWA Enabled | Based on DoW CSRMC</p>
             <p id="onlineStatus">🟢 Online</p>
         </footer>
+    </div>
+
+    <!-- Modal Dialogs -->
+    <!-- Design Phase Modal -->
+    <div id="designModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Design Phase - CSRMC</h2>
+                <button class="modal-close" onclick="closeModal('designModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <h3>Overview</h3>
+                <p>The Design Phase is the foundation of the CSRMC lifecycle, where cybersecurity and resilience are embedded from the very beginning of system development.</p>
+                
+                <h3>Key Principles</h3>
+                <ul>
+                    <li><strong>Early Stakeholder Engagement:</strong> Involves Mission Owner, System Owner, Engineers, and Cybersecurity Service Providers from day one</li>
+                    <li><strong>Security by Design:</strong> Cybersecurity requirements are incorporated at the inception, not as an afterthought</li>
+                    <li><strong>Operational Survivability:</strong> Systems are designed to maintain functionality even under cyber attack</li>
+                    <li><strong>Threat Modeling:</strong> Identifies potential threats and vulnerabilities during the design stage</li>
+                </ul>
+
+                <h3>Benefits</h3>
+                <ul>
+                    <li>Reduces costly security retrofits later in the lifecycle</li>
+                    <li>Ensures mission requirements align with security capabilities</li>
+                    <li>Creates a foundation for automation and continuous monitoring</li>
+                    <li>Improves overall system resilience and cyber survivability</li>
+                </ul>
+
+                <div class="citation">
+                    <div class="citation-title">Source:</div>
+                    U.S. Department of War, "Cybersecurity Risk Management Construct," September 2025<br>
+                    <a href="https://www.war.gov/News/Releases/Release/Article/4314411/department-of-war-announces-new-cybersecurity-risk-management-construct/" class="citation-link" target="_blank">
+                        https://www.war.gov/News/Releases/Release/Article/4314411/
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Build Phase Modal -->
+    <div id="buildModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Build Phase - CSRMC</h2>
+                <button class="modal-close" onclick="closeModal('buildModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <h3>Overview</h3>
+                <p>The Build Phase transforms secure designs into functional systems, implementing security controls and achieving Initial Operating Capability (IOC).</p>
+                
+                <h3>DevSecOps Integration</h3>
+                <ul>
+                    <li><strong>Continuous Integration/Continuous Deployment (CI/CD):</strong> Security testing automated in deployment pipelines</li>
+                    <li><strong>Infrastructure as Code:</strong> Security configurations managed through version control</li>
+                    <li><strong>Automated Security Testing:</strong> SAST, DAST, and dependency scanning integrated into build process</li>
+                    <li><strong>Container Security:</strong> Image scanning and runtime protection</li>
+                </ul>
+
+                <h3>Critical Controls Implementation</h3>
+                <ul>
+                    <li>Focus on the most essential cybersecurity protections</li>
+                    <li>Address exploitable vulnerabilities identified during design</li>
+                    <li>Implement least privilege access controls</li>
+                    <li>Enable comprehensive logging and monitoring capabilities</li>
+                </ul>
+
+                <div class="citation">
+                    <div class="citation-title">Source:</div>
+                    U.S. Department of War, "DoD CIO Cyber Security Risk Management Construct," September 2025<br>
+                    <a href="https://media.defense.gov/2025/Sep/24/2003808112/-1/-1/1/DOD-CIO-CYBER-SECURITY-RISK-MANAGEMENT-CONSTRUCT.PDF" class="citation-link" target="_blank">
+                        https://media.defense.gov/2025/Sep/24/2003808112/DOD-CIO-CYBER-SECURITY-RISK-MANAGEMENT-CONSTRUCT.PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Phase Modal -->
+    <div id="testModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Test Phase - CSRMC</h2>
+                <button class="modal-close" onclick="closeModal('testModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <h3>Overview</h3>
+                <p>Comprehensive security validation through threat-informed testing before achieving Full Operating Capability (FOC).</p>
+                
+                <h3>Testing Activities</h3>
+                <ul>
+                    <li><strong>Penetration Testing:</strong> Simulated attacks to identify exploitable vulnerabilities</li>
+                    <li><strong>Vulnerability Assessment:</strong> Automated and manual scanning for security weaknesses</li>
+                    <li><strong>Red Team Exercises:</strong> Adversarial emulation to test defensive capabilities</li>
+                    <li><strong>Control Validation:</strong> Verification that implemented controls function as designed</li>
+                </ul>
+
+                <h3>Threat-Informed Approach</h3>
+                <ul>
+                    <li>Testing based on actual threat actor tactics, techniques, and procedures (TTPs)</li>
+                    <li>Validation against known indicators of compromise (IOCs)</li>
+                    <li>Assessment of detection and response capabilities</li>
+                    <li>Evaluation of cyber survivability under attack scenarios</li>
+                </ul>
+
+                <div class="citation">
+                    <div class="citation-title">Sources:</div>
+                    SecureStrux, "The DoW's New Approach to Cybersecurity Risk Management," 2025<br>
+                    <a href="https://securestrux.com/resources/insights/the-dows-new-approach-to-cybersecurity-risk-management/" class="citation-link" target="_blank">
+                        https://securestrux.com/resources/insights/the-dows-new-approach-to-cybersecurity-risk-management/
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onboard Phase Modal -->
+    <div id="onboardModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Onboard Phase - CSRMC</h2>
+                <button class="modal-close" onclick="closeModal('onboardModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <h3>Overview</h3>
+                <p>Systems are fully integrated into the operational environment with automated monitoring and continuous authorization to operate (ATO).</p>
+                
+                <h3>Enterprise Integration</h3>
+                <ul>
+                    <li><strong>Enterprise Services:</strong> Leverage centralized security services and inherit existing controls</li>
+                    <li><strong>Reciprocity:</strong> Reuse security assessments and authorizations across systems</li>
+                    <li><strong>Automated Onboarding:</strong> Streamlined integration process reducing manual effort</li>
+                    <li><strong>Continuous ATO:</strong> Real-time authorization based on ongoing monitoring</li>
+                </ul>
+
+                <h3>Operational Visibility</h3>
+                <ul>
+                    <li>Dashboard integration providing commanders real-time risk posture</li>
+                    <li>Automated threat detection and alerting</li>
+                    <li>Active defense capabilities enabled immediately</li>
+                    <li>Continuous compliance monitoring and reporting</li>
+                </ul>
+
+                <h3>Key Difference from RMF</h3>
+                <p>Unlike the traditional RMF "snapshot in time" authorization, CSRMC provides <strong>continuous authorization</strong> based on real-time monitoring and automated controls validation.</p>
+
+                <div class="citation">
+                    <div class="citation-title">Sources:</div>
+                    ExecutiveGov, "Pentagon Implements Cybersecurity Risk Management Construct," 2025<br>
+                    <a href="https://executivegov.com/articles/dod-cybersecurity-risk-management-construct-csrmc" class="citation-link" target="_blank">
+                        https://executivegov.com/articles/dod-cybersecurity-risk-management-construct-csrmc
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Operations Phase Modal -->
+    <div id="operationsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Operations Phase - CSRMC</h2>
+                <button class="modal-close" onclick="closeModal('operationsModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <h3>Overview</h3>
+                <p>Continuous, real-time monitoring with dashboard alerts, rapid threat detection, and immediate response capabilities throughout the operational lifecycle.</p>
+                
+                <h3>Continuous Monitoring</h3>
+                <ul>
+                    <li><strong>Real-Time Dashboards:</strong> Immediate visibility into cybersecurity posture for commanders</li>
+                    <li><strong>Automated Threat Detection:</strong> AI/ML-powered identification of anomalies and threats</li>
+                    <li><strong>Correlation and Analysis:</strong> Integration of multiple data sources for comprehensive threat intelligence</li>
+                    <li><strong>Behavioral Analytics:</strong> Detection of insider threats and advanced persistent threats (APTs)</li>
+                </ul>
+
+                <h3>Rapid Response</h3>
+                <ul>
+                    <li>High-risk scenarios trigger immediate automated mitigation actions</li>
+                    <li>Playbook-driven incident response for consistent handling</li>
+                    <li>Coordination with Security Operations Center (SOC) and incident response teams</li>
+                    <li>Rapid patching and remediation workflows</li>
+                </ul>
+
+                <h3>Cyber Survivability</h3>
+                <ul>
+                    <li>Systems continue to function even under active cyber attack</li>
+                    <li>Graceful degradation rather than complete failure</li>
+                    <li>Mission assurance through defense-in-depth architecture</li>
+                    <li>Resilient operations across all domains (air, land, sea, space, cyberspace)</li>
+                </ul>
+
+                <div class="citation">
+                    <div class="citation-title">Sources:</div>
+                    Industrial Cyber, "US Department of War rolls out CSRMC to deliver real-time cyber defense," 2025<br>
+                    <a href="https://industrialcyber.co/risk-management/us-department-of-war-rolls-out-csrmc-to-deliver-real-time-cyber-defense/" class="citation-link" target="_blank">
+                        https://industrialcyber.co/risk-management/us-department-of-war-rolls-out-csrmc-to-deliver-real-time-cyber-defense/
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ten Tenets Modal -->
+    <div id="tenetsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>CSRMC Ten Strategic Tenets</h2>
+                <button class="modal-close" onclick="closeModal('tenetsModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <h3>1. Automation</h3>
+                <p>Scales operations and eliminates manual errors. Enables routine security tasks and reporting to be handled by automated tools, freeing personnel for strategic activities.</p>
+
+                <h3>2. Critical Controls</h3>
+                <p>Emphasis on the most essential cybersecurity protections, especially those addressing exploitable vulnerabilities. Focus on controls that provide maximum security value.</p>
+
+                <h3>3. Continuous Monitoring and Constant ATO</h3>
+                <p>Real-time situational awareness with perpetual system authorization, avoiding lengthy approval cycles and providing commanders with immediate risk visibility.</p>
+
+                <h3>4. DevSecOps</h3>
+                <p>Integrated security in software development and deployment for agility and resilience. Security is not a gate, but a continuous process throughout the development lifecycle.</p>
+
+                <h3>5. Cyber Survivability</h3>
+                <p>Systems must continue to function even when under attack. Design for graceful degradation and mission assurance in contested cyber environments.</p>
+
+                <h3>6. Training</h3>
+                <p>Ensures personnel are equipped to handle new cyber threats and processes. Continuous education and skill development for evolving threat landscape.</p>
+
+                <h3>7. Enterprise Services & Inheritance</h3>
+                <p>Reduces duplication by reusing controls and previously authorized services. Leverage enterprise-wide security capabilities and assessments.</p>
+
+                <h3>8. Operationalization</h3>
+                <p>Delivers near real-time visibility of risk posture to commanders and leaders. Security data is actionable intelligence for operational decisions.</p>
+
+                <h3>9. Reciprocity</h3>
+                <p>Allows reuse of security assessments and authorizations across different systems. Reduces redundant testing and accelerates deployment timelines.</p>
+
+                <h3>10. Cybersecurity/Threat-Informed Assessments</h3>
+                <p>Validation through active, threat-based testing. Use real-world adversary tactics, techniques, and procedures (TTPs) to validate defensive capabilities.</p>
+
+                <div class="citation">
+                    <div class="citation-title">Sources:</div>
+                    U.S. Department of War Official CSRMC Release, September 2025<br>
+                    <a href="https://www.war.gov/News/Releases/Release/Article/4314411/department-of-war-announces-new-cybersecurity-risk-management-construct/" class="citation-link" target="_blank">
+                        https://www.war.gov/News/Releases/Release/Article/4314411/
+                    </a>
+                    <br><br>
+                    Strobes Security, "CSRMC: Department of War's New Cybersecurity Framework," 2025<br>
+                    <a href="https://strobes.co/blog/csrmc-department-of-war-cybersecurity/" class="citation-link" target="_blank">
+                        https://strobes.co/blog/csrmc-department-of-war-cybersecurity/
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>
