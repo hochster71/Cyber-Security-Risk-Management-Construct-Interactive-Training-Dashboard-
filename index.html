@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Security Risk Management Training Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <h1>🛡️ Cyber Security Risk Management</h1>
+                <p class="subtitle">Interactive Training Dashboard</p>
+            </div>
+            <div class="user-info">
+                <span class="user-name" id="userName">User</span>
+                <span class="user-score" id="userScore">Score: 0</span>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+            <button class="nav-btn" data-section="training">Training Modules</button>
+            <button class="nav-btn" data-section="assessment">Risk Assessment</button>
+            <button class="nav-btn" data-section="quiz">Knowledge Quiz</button>
+            <button class="nav-btn" data-section="progress">My Progress</button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <h2>Welcome to Your Security Training Dashboard</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-info">
+                            <h3>Modules Completed</h3>
+                            <p class="stat-value" id="modulesCompleted">0/6</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <h3>Quiz Score</h3>
+                            <p class="stat-value" id="quizScore">0%</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <h3>Risk Assessments</h3>
+                            <p class="stat-value" id="assessmentsCompleted">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-info">
+                            <h3>Training Time</h3>
+                            <p class="stat-value" id="trainingTime">0 min</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-info">
+                    <div class="info-card">
+                        <h3>🎓 Learning Path</h3>
+                        <p>Follow our structured curriculum to master cybersecurity risk management:</p>
+                        <ul>
+                            <li>Understanding Cyber Threats</li>
+                            <li>Risk Assessment Methodologies</li>
+                            <li>Security Controls & Mitigation</li>
+                            <li>Incident Response Planning</li>
+                            <li>Compliance & Governance</li>
+                            <li>Continuous Monitoring</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>🔒 Recent Security Updates</h3>
+                        <div class="updates-list">
+                            <div class="update-item">
+                                <span class="update-date">Nov 2025</span>
+                                <span class="update-text">New NIST Framework 2.0 module added</span>
+                            </div>
+                            <div class="update-item">
+                                <span class="update-date">Oct 2025</span>
+                                <span class="update-text">Updated Zero Trust Architecture training</span>
+                            </div>
+                            <div class="update-item">
+                                <span class="update-date">Sep 2025</span>
+                                <span class="update-text">Enhanced risk assessment tools</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Training Modules Section -->
+            <section id="training" class="content-section">
+                <h2>Training Modules</h2>
+                
+                <div class="modules-grid">
+                    <div class="module-card" data-module="1">
+                        <div class="module-header">
+                            <span class="module-number">Module 1</span>
+                            <span class="module-status" data-status="locked">🔓</span>
+                        </div>
+                        <h3>Understanding Cyber Threats</h3>
+                        <p>Learn about common cyber threats, attack vectors, and threat actors in the modern digital landscape.</p>
+                        <div class="module-topics">
+                            <span class="topic-tag">Malware</span>
+                            <span class="topic-tag">Phishing</span>
+                            <span class="topic-tag">DDoS</span>
+                            <span class="topic-tag">Ransomware</span>
+                        </div>
+                        <button class="btn-primary module-btn" onclick="openModule(1)">Start Module</button>
+                    </div>
+
+                    <div class="module-card" data-module="2">
+                        <div class="module-header">
+                            <span class="module-number">Module 2</span>
+                            <span class="module-status" data-status="locked">🔒</span>
+                        </div>
+                        <h3>Risk Assessment Methodologies</h3>
+                        <p>Master quantitative and qualitative risk assessment techniques including FAIR, OCTAVE, and NIST frameworks.</p>
+                        <div class="module-topics">
+                            <span class="topic-tag">NIST RMF</span>
+                            <span class="topic-tag">ISO 27005</span>
+                            <span class="topic-tag">FAIR</span>
+                        </div>
+                        <button class="btn-primary module-btn" onclick="openModule(2)" disabled>Locked</button>
+                    </div>
+
+                    <div class="module-card" data-module="3">
+                        <div class="module-header">
+                            <span class="module-number">Module 3</span>
+                            <span class="module-status" data-status="locked">🔒</span>
+                        </div>
+                        <h3>Security Controls & Mitigation</h3>
+                        <p>Implement effective security controls to mitigate identified risks and protect critical assets.</p>
+                        <div class="module-topics">
+                            <span class="topic-tag">Access Control</span>
+                            <span class="topic-tag">Encryption</span>
+                            <span class="topic-tag">Firewalls</span>
+                        </div>
+                        <button class="btn-primary module-btn" onclick="openModule(3)" disabled>Locked</button>
+                    </div>
+
+                    <div class="module-card" data-module="4">
+                        <div class="module-header">
+                            <span class="module-number">Module 4</span>
+                            <span class="module-status" data-status="locked">🔒</span>
+                        </div>
+                        <h3>Incident Response Planning</h3>
+                        <p>Develop comprehensive incident response plans and learn best practices for handling security incidents.</p>
+                        <div class="module-topics">
+                            <span class="topic-tag">IR Framework</span>
+                            <span class="topic-tag">Forensics</span>
+                            <span class="topic-tag">Recovery</span>
+                        </div>
+                        <button class="btn-primary module-btn" onclick="openModule(4)" disabled>Locked</button>
+                    </div>
+
+                    <div class="module-card" data-module="5">
+                        <div class="module-header">
+                            <span class="module-number">Module 5</span>
+                            <span class="module-status" data-status="locked">🔒</span>
+                        </div>
+                        <h3>Compliance & Governance</h3>
+                        <p>Navigate regulatory requirements including GDPR, HIPAA, SOX, and industry-specific compliance standards.</p>
+                        <div class="module-topics">
+                            <span class="topic-tag">GDPR</span>
+                            <span class="topic-tag">HIPAA</span>
+                            <span class="topic-tag">PCI-DSS</span>
+                        </div>
+                        <button class="btn-primary module-btn" onclick="openModule(5)" disabled>Locked</button>
+                    </div>
+
+                    <div class="module-card" data-module="6">
+                        <div class="module-header">
+                            <span class="module-number">Module 6</span>
+                            <span class="module-status" data-status="locked">🔒</span>
+                        </div>
+                        <h3>Continuous Monitoring</h3>
+                        <p>Establish continuous monitoring programs using SIEM, threat intelligence, and automated security tools.</p>
+                        <div class="module-topics">
+                            <span class="topic-tag">SIEM</span>
+                            <span class="topic-tag">Threat Intel</span>
+                            <span class="topic-tag">SOC</span>
+                        </div>
+                        <button class="btn-primary module-btn" onclick="openModule(6)" disabled>Locked</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Risk Assessment Section -->
+            <section id="assessment" class="content-section">
+                <h2>Risk Assessment Tool</h2>
+                
+                <div class="assessment-container">
+                    <div class="assessment-form">
+                        <h3>Assess a Security Risk</h3>
+                        
+                        <div class="form-group">
+                            <label for="assetName">Asset Name</label>
+                            <input type="text" id="assetName" placeholder="e.g., Customer Database">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="threatType">Threat Type</label>
+                            <select id="threatType">
+                                <option value="">Select a threat...</option>
+                                <option value="malware">Malware Attack</option>
+                                <option value="phishing">Phishing</option>
+                                <option value="insider">Insider Threat</option>
+                                <option value="ddos">DDoS Attack</option>
+                                <option value="data-breach">Data Breach</option>
+                                <option value="ransomware">Ransomware</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Likelihood</label>
+                            <div class="slider-container">
+                                <input type="range" id="likelihood" min="1" max="5" value="3" class="slider">
+                                <span class="slider-value" id="likelihoodValue">3 - Possible</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Impact</label>
+                            <div class="slider-container">
+                                <input type="range" id="impact" min="1" max="5" value="3" class="slider">
+                                <span class="slider-value" id="impactValue">3 - Moderate</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary" onclick="calculateRisk()">Calculate Risk Score</button>
+                    </div>
+                    
+                    <div class="assessment-results">
+                        <h3>Risk Assessment Results</h3>
+                        <div id="riskResults">
+                            <p class="placeholder-text">Complete the form to see risk assessment results</p>
+                        </div>
+                        
+                        <div id="riskHistory" class="risk-history">
+                            <h4>Assessment History</h4>
+                            <div id="historyList" class="history-list">
+                                <p class="placeholder-text">No assessments yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section id="quiz" class="content-section">
+                <h2>Knowledge Quiz</h2>
+                
+                <div class="quiz-container">
+                    <div class="quiz-intro" id="quizIntro">
+                        <h3>Test Your Cybersecurity Knowledge</h3>
+                        <p>This quiz covers fundamental concepts in cybersecurity risk management. Answer all questions to test your understanding.</p>
+                        <div class="quiz-stats">
+                            <div class="quiz-stat">
+                                <strong>10</strong>
+                                <span>Questions</span>
+                            </div>
+                            <div class="quiz-stat">
+                                <strong>15</strong>
+                                <span>Minutes</span>
+                            </div>
+                            <div class="quiz-stat">
+                                <strong>70%</strong>
+                                <span>Pass Mark</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary btn-large" onclick="startQuiz()">Start Quiz</button>
+                    </div>
+                    
+                    <div class="quiz-active" id="quizActive" style="display: none;">
+                        <div class="quiz-header">
+                            <div class="quiz-progress">
+                                <span>Question <span id="currentQuestion">1</span> of <span id="totalQuestions">10</span></span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <h3 id="questionText"></h3>
+                            <div class="quiz-options" id="quizOptions"></div>
+                        </div>
+                        
+                        <div class="quiz-controls">
+                            <button class="btn-secondary" onclick="previousQuestion()" id="prevBtn" disabled>Previous</button>
+                            <button class="btn-primary" onclick="nextQuestion()" id="nextBtn">Next</button>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-results" id="quizResults" style="display: none;">
+                        <h3>Quiz Complete!</h3>
+                        <div class="results-score">
+                            <div class="score-circle">
+                                <span class="score-percentage" id="finalScore">0%</span>
+                            </div>
+                            <p class="score-label" id="scoreLabel"></p>
+                        </div>
+                        <div class="results-details" id="resultsDetails"></div>
+                        <button class="btn-primary" onclick="retakeQuiz()">Retake Quiz</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progress" class="content-section">
+                <h2>My Progress</h2>
+                
+                <div class="progress-container">
+                    <div class="progress-overview">
+                        <h3>Overall Progress</h3>
+                        <div class="progress-circle-large">
+                            <svg width="200" height="200">
+                                <circle cx="100" cy="100" r="90" fill="none" stroke="#e0e0e0" stroke-width="20"></circle>
+                                <circle id="progressCircle" cx="100" cy="100" r="90" fill="none" stroke="#4CAF50" stroke-width="20" 
+                                        stroke-dasharray="565.48" stroke-dashoffset="565.48" transform="rotate(-90 100 100)"></circle>
+                                <text x="100" y="100" text-anchor="middle" dy=".3em" font-size="40" fill="#333" id="overallProgress">0%</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-details">
+                        <h3>Detailed Progress</h3>
+                        
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Training Modules</span>
+                                <span id="moduleProgress">0%</span>
+                            </div>
+                            <div class="progress-bar-horizontal">
+                                <div class="progress-bar-fill" id="moduleProgressBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Quiz Performance</span>
+                                <span id="quizProgress">0%</span>
+                            </div>
+                            <div class="progress-bar-horizontal">
+                                <div class="progress-bar-fill" id="quizProgressBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Risk Assessments</span>
+                                <span id="assessmentProgress">0 completed</span>
+                            </div>
+                            <div class="progress-bar-horizontal">
+                                <div class="progress-bar-fill" id="assessmentProgressBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <h3 style="margin-top: 30px;">Achievements</h3>
+                        <div class="achievements-grid" id="achievementsGrid">
+                            <div class="achievement locked">
+                                <span class="achievement-icon">🏆</span>
+                                <span class="achievement-name">First Steps</span>
+                            </div>
+                            <div class="achievement locked">
+                                <span class="achievement-icon">📚</span>
+                                <span class="achievement-name">Knowledge Seeker</span>
+                            </div>
+                            <div class="achievement locked">
+                                <span class="achievement-icon">🎯</span>
+                                <span class="achievement-name">Risk Master</span>
+                            </div>
+                            <div class="achievement locked">
+                                <span class="achievement-icon">⭐</span>
+                                <span class="achievement-name">Perfect Score</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Cyber Security Risk Management Training. All rights reserved.</p>
+            <p class="footer-links">
+                <a href="#" onclick="showAbout(); return false;">About</a> |
+                <a href="#" onclick="resetProgress(); return false;">Reset Progress</a> |
+                <a href="#" onclick="exportProgress(); return false;">Export Progress</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Modal for Module Content -->
+    <div id="moduleModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/assessment.js"></script>
+</body>
+</html>
