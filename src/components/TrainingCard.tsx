@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { BookOpen, Clock, Award } from 'lucide-react';
 import { TrainingModule } from '../types';
 
@@ -7,7 +7,7 @@ interface TrainingCardProps {
   onClick: () => void;
 }
 
-const TrainingCard: React.FC<TrainingCardProps> = ({ module, onClick }) => {
+const TrainingCard: React.FC<TrainingCardProps> = memo(({ module, onClick }) => {
   const getDifficultyColor = () => {
     switch (module.difficulty) {
       case 'Beginner':
@@ -22,9 +22,10 @@ const TrainingCard: React.FC<TrainingCardProps> = ({ module, onClick }) => {
   };
 
   return (
-    <div 
+    <button
       onClick={onClick}
-      className="glass-card p-6 cursor-pointer hover:border-accent-primary/50 transition-all duration-300 transform hover:scale-102 group"
+      className="glass-card p-6 cursor-pointer hover:border-accent-primary/50 transition-all duration-300 transform hover:scale-102 group text-left w-full"
+      aria-label={`Open training module: ${module.title}`}
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
@@ -70,8 +71,10 @@ const TrainingCard: React.FC<TrainingCardProps> = ({ module, onClick }) => {
           </span>
         )}
       </div>
-    </div>
+    </button>
   );
-};
+});
+
+TrainingCard.displayName = 'TrainingCard';
 
 export default TrainingCard;

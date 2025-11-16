@@ -1,9 +1,7 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { Shield, Activity, BookOpen, TrendingUp, Brain, Menu, X } from 'lucide-react';
 import MetricCard from './components/MetricCard';
 import TrainingCard from './components/TrainingCard';
-import ChartComponent from './components/ChartComponent';
-import ModuleDetail from './components/ModuleDetail';
 import { 
   trainingModules, 
   securityMetrics, 
@@ -13,6 +11,10 @@ import {
 } from './data/trainingData';
 import { TrainingModule } from './types';
 
+// Lazy load heavy components
+const ChartComponent = lazy(() => import('./components/ChartComponent'));
+const ModuleDetail = lazy(() => import('./components/ModuleDetail'));
+
 function App() {
   const [selectedModule, setSelectedModule] = useState<TrainingModule | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -21,11 +23,11 @@ function App() {
   return (
     <div className="min-h-screen bg-dark-bg cyber-grid">
       {/* Header */}
-      <header className="glass-card sticky top-0 z-40 border-b border-dark-border/50">
+      <header className="glass-card sticky top-0 z-40 border-b border-dark-border/50" role="banner">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-lg">
+              <div className="p-2 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-lg" aria-hidden="true">
                 <Shield className="w-8 h-8 text-white" />
               </div>
               <div>
@@ -35,7 +37,7 @@ function App() {
             </div>
             
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
               <button
                 onClick={() => setActiveTab('dashboard')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
@@ -43,8 +45,9 @@ function App() {
                     ? 'bg-accent-primary/20 text-accent-primary'
                     : 'text-gray-400 hover:text-white'
                 }`}
+                aria-current={activeTab === 'dashboard' ? 'page' : undefined}
               >
-                <Activity className="w-5 h-5" />
+                <Activity className="w-5 h-5" aria-hidden="true" />
                 <span>Dashboard</span>
               </button>
               <button
@@ -54,8 +57,9 @@ function App() {
                     ? 'bg-accent-primary/20 text-accent-primary'
                     : 'text-gray-400 hover:text-white'
                 }`}
+                aria-current={activeTab === 'training' ? 'page' : undefined}
               >
-                <BookOpen className="w-5 h-5" />
+                <BookOpen className="w-5 h-5" aria-hidden="true" />
                 <span>Training</span>
               </button>
               <button
@@ -65,8 +69,9 @@ function App() {
                     ? 'bg-accent-primary/20 text-accent-primary'
                     : 'text-gray-400 hover:text-white'
                 }`}
+                aria-current={activeTab === 'analytics' ? 'page' : undefined}
               >
-                <TrendingUp className="w-5 h-5" />
+                <TrendingUp className="w-5 h-5" aria-hidden="true" />
                 <span>Analytics</span>
               </button>
             </nav>
@@ -75,6 +80,8 @@ function App() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 hover:bg-dark-elevated rounded-lg"
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -122,15 +129,15 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8" role="main">
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
           <div className="space-y-8">
             {/* Hero Section */}
-            <div className="glass-card p-8 text-center relative overflow-hidden">
+            <section className="glass-card p-8 text-center relative overflow-hidden" aria-label="Platform introduction">
               <div className="absolute inset-0 bg-gradient-to-r from-accent-primary/10 to-accent-secondary/10 animate-gradient"></div>
               <div className="relative z-10">
-                <div className="inline-flex items-center justify-center p-3 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-full mb-4">
+                <div className="inline-flex items-center justify-center p-3 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-full mb-4" aria-hidden="true">
                   <Brain className="w-12 h-12 text-white" />
                 </div>
                 <h2 className="text-4xl font-bold gradient-text mb-4">
@@ -144,20 +151,20 @@ function App() {
                   Developed by Michael Hoch | Dark Wolf Solutions
                 </p>
               </div>
-            </div>
+            </section>
 
             {/* Metrics Grid */}
-            <div>
+            <section aria-label="Security metrics overview">
               <h3 className="text-2xl font-bold text-white mb-6">Security Overview</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {securityMetrics.map((metric, index) => (
                   <MetricCard key={index} metric={metric} />
                 ))}
               </div>
-            </div>
+            </section>
 
             {/* Quick Training Access */}
-            <div>
+            <section aria-label="Featured training modules">
               <h3 className="text-2xl font-bold text-white mb-6">Featured Training Modules</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {trainingModules.slice(0, 3).map((module) => (
@@ -168,7 +175,7 @@ function App() {
                   />
                 ))}
               </div>
-            </div>
+            </section>
           </div>
         )}
 
@@ -205,34 +212,40 @@ function App() {
             </div>
 
             {/* Charts Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <ChartComponent
-                data={threatTrendData}
-                type="area"
-                title="Threat Trends (12 Months)"
-              />
-              <ChartComponent
-                data={attackTypeData}
-                type="pie"
-                title="Attack Type Distribution"
-              />
-              <ChartComponent
-                data={complianceData}
-                type="bar"
-                title="Compliance Framework Status"
-              />
-              <ChartComponent
-                data={threatTrendData.slice(-6)}
-                type="line"
-                title="Recent Threat Activity"
-              />
-            </div>
+            <Suspense fallback={
+              <div className="flex items-center justify-center p-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-primary"></div>
+              </div>
+            }>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <ChartComponent
+                  data={threatTrendData}
+                  type="area"
+                  title="Threat Trends (12 Months)"
+                />
+                <ChartComponent
+                  data={attackTypeData}
+                  type="pie"
+                  title="Attack Type Distribution"
+                />
+                <ChartComponent
+                  data={complianceData}
+                  type="bar"
+                  title="Compliance Framework Status"
+                />
+                <ChartComponent
+                  data={threatTrendData.slice(-6)}
+                  type="line"
+                  title="Recent Threat Activity"
+                />
+              </div>
+            </Suspense>
           </div>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="glass-card mt-16 border-t border-dark-border">
+      <footer className="glass-card mt-16 border-t border-dark-border" role="contentinfo">
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
@@ -274,10 +287,16 @@ function App() {
 
       {/* Module Detail Modal */}
       {selectedModule && (
-        <ModuleDetail
-          module={selectedModule}
-          onClose={() => setSelectedModule(null)}
-        />
+        <Suspense fallback={
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-primary"></div>
+          </div>
+        }>
+          <ModuleDetail
+            module={selectedModule}
+            onClose={() => setSelectedModule(null)}
+          />
+        </Suspense>
       )}
     </div>
   );
