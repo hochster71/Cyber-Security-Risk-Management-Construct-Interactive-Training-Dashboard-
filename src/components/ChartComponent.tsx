@@ -1,6 +1,7 @@
 import React from 'react';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { ChartDataPoint } from '../types';
+import { CHART_COLORS } from '../constants';
 
 interface ChartProps {
   data: ChartDataPoint[];
@@ -8,8 +9,6 @@ interface ChartProps {
   title: string;
   dataKey?: string;
 }
-
-const COLORS = ['#00d4ff', '#7c3aed', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
 
 interface TooltipProps {
   active?: boolean;
@@ -108,7 +107,7 @@ const ChartComponent: React.FC<ChartProps> = ({ data, type, title, dataKey = 'va
                 dataKey={dataKey}
               >
                 {data.map((_entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
