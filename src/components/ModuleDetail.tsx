@@ -1,7 +1,8 @@
-import React from 'react';
-import { X, ExternalLink, BookOpen, User, Calendar } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, ExternalLink, BookOpen, User, Calendar, CheckCircle } from 'lucide-react';
 import { TrainingModule } from '../types';
 import ReactMarkdown from 'react-markdown';
+import { useProgress } from '../contexts/useProgress';
 
 interface ModuleDetailProps {
   module: TrainingModule;
@@ -9,6 +10,15 @@ interface ModuleDetailProps {
 }
 
 const ModuleDetail: React.FC<ModuleDetailProps> = ({ module, onClose }) => {
+  const { markModuleComplete, isModuleCompleted } = useProgress();
+  const [startTime] = useState(() => Date.now());
+  const completed = isModuleCompleted(module.id);
+
+  const handleComplete = () => {
+    const timeSpent = Math.round((Date.now() - startTime) / 60000); // Convert to minutes
+    markModuleComplete(module.id, timeSpent);
+  };
+
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
       <div className="glass-card max-w-4xl w-full my-8 relative max-h-[90vh] overflow-y-auto">
@@ -126,8 +136,27 @@ const ModuleDetail: React.FC<ModuleDetailProps> = ({ module, onClose }) => {
             </div>
           </div>
 
+          {/* Complete Button */}
+          <div className="flex items-center justify-center pt-6 border-t border-dark-border">
+            {completed ? (
+              <div className="flex items-center gap-2 text-accent-success">
+                <CheckCircle className="w-6 h-6" aria-hidden="true" />
+                <span className="font-medium">Module Completed!</span>
+              </div>
+            ) : (
+              <button
+                onClick={handleComplete}
+                className="px-6 py-3 bg-accent-success hover:bg-accent-success/80 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+                aria-label="Mark module as complete"
+              >
+                <CheckCircle className="w-5 h-5" aria-hidden="true" />
+                Mark as Complete
+              </button>
+            )}
+          </div>
+
           {/* Footer */}
-          <div className="text-center pt-6 border-t border-dark-border">
+          <div className="text-center pt-4">
             <p className="text-gray-400 text-sm">
               Training material developed by Michael Hoch for Dark Wolf Solutions
             </p>

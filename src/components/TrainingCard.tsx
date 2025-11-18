@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
-import { BookOpen, Clock, Award } from 'lucide-react';
+import { BookOpen, Clock, Award, CheckCircle } from 'lucide-react';
 import { TrainingModule } from '../types';
+import { useProgress } from '../contexts/useProgress';
 
 interface TrainingCardProps {
   module: TrainingModule;
@@ -8,6 +9,8 @@ interface TrainingCardProps {
 }
 
 const TrainingCard: React.FC<TrainingCardProps> = memo(({ module, onClick }) => {
+  const { isModuleCompleted } = useProgress();
+  const completed = isModuleCompleted(module.id);
   const getDifficultyColor = () => {
     switch (module.difficulty) {
       case 'Beginner':
@@ -24,9 +27,17 @@ const TrainingCard: React.FC<TrainingCardProps> = memo(({ module, onClick }) => 
   return (
     <button
       onClick={onClick}
-      className="glass-card p-6 cursor-pointer hover:border-accent-primary/50 transition-all duration-300 transform hover:scale-102 group text-left w-full"
+      className={`glass-card p-6 cursor-pointer hover:border-accent-primary/50 transition-all duration-300 transform hover:scale-102 group text-left w-full relative ${
+        completed ? 'border-accent-success/30' : ''
+      }`}
       aria-label={`Open training module: ${module.title}`}
     >
+      {completed && (
+        <div className="absolute top-4 right-4 flex items-center gap-1 bg-accent-success/20 text-accent-success px-3 py-1 rounded-full text-xs font-medium">
+          <CheckCircle className="w-3 h-3" aria-hidden="true" />
+          <span>Completed</span>
+        </div>
+      )}
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
