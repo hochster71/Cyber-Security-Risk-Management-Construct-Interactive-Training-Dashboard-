@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Shield, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react';
 import { MetricData } from '../types';
 
@@ -6,7 +6,7 @@ interface MetricCardProps {
   metric: MetricData;
 }
 
-const MetricCard: React.FC<MetricCardProps> = ({ metric }) => {
+const MetricCard: React.FC<MetricCardProps> = memo(({ metric }) => {
   const getIcon = () => {
     switch (metric.label) {
       case 'Security Score':
@@ -42,6 +42,8 @@ const MetricCard: React.FC<MetricCardProps> = ({ metric }) => {
       <p className="text-gray-400 text-sm">{metric.label}</p>
     </div>
   );
-};
+});
+
+MetricCard.displayName = 'MetricCard';
 
 export default MetricCard;
