@@ -58,3 +58,29 @@
     background-position: right center;
   }
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Print styles for certificate */
+@media print {
+  .certificate-print {
+    @apply shadow-none border-0;
+  }
+  
+  header, nav, footer, button {
+    display: none !important;
+  }
+}

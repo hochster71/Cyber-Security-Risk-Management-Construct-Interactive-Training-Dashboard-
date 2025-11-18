@@ -1,7 +1,10 @@
-import { useState, lazy, Suspense } from 'react';
-import { Shield, Activity, BookOpen, TrendingUp, Brain, Menu, X } from 'lucide-react';
+import { useState, lazy, Suspense, useMemo } from 'react';
+import { Shield, Activity, BookOpen, TrendingUp, Brain, Menu, X, GraduationCap, ClipboardCheck } from 'lucide-react';
 import MetricCard from './components/MetricCard';
 import TrainingCard from './components/TrainingCard';
+import ProgressBar from './components/ProgressBar';
+import SearchFilter from './components/SearchFilter';
+import { ProgressProvider } from './contexts/ProgressContext';
 import { 
   trainingModules, 
   securityMetrics, 
@@ -14,11 +17,37 @@ import { TrainingModule } from './types';
 // Lazy load heavy components
 const ChartComponent = lazy(() => import('./components/ChartComponent'));
 const ModuleDetail = lazy(() => import('./components/ModuleDetail'));
+const Quiz = lazy(() => import('./components/Quiz'));
+const Certificate = lazy(() => import('./components/Certificate'));
 
-function App() {
+function AppContent() {
   const [selectedModule, setSelectedModule] = useState<TrainingModule | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'training' | 'analytics'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'training' | 'analytics' | 'quiz' | 'certificate'>('dashboard');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [difficultyFilters, setDifficultyFilters] = useState<string[]>([]);
+  const [categoryFilters, setCategoryFilters] = useState<string[]>([]);
+
+  // Filter training modules based on search and filters
+  const filteredModules = useMemo(() => {
+    return trainingModules.filter(module => {
+      // Search filter
+      const matchesSearch = searchTerm === '' || 
+        module.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        module.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        module.topics.some(topic => topic.toLowerCase().includes(searchTerm.toLowerCase()));
+
+      // Difficulty filter
+      const matchesDifficulty = difficultyFilters.length === 0 || 
+        difficultyFilters.includes(module.difficulty);
+
+      // Category filter
+      const matchesCategory = categoryFilters.length === 0 || 
+        categoryFilters.includes(module.category);
+
+      return matchesSearch && matchesDifficulty && matchesCategory;
+    });
+  }, [searchTerm, difficultyFilters, categoryFilters]);
 
   return (
     <div className="min-h-screen bg-dark-bg cyber-grid">
@@ -74,6 +103,30 @@ function App() {
                 <TrendingUp className="w-5 h-5" aria-hidden="true" />
                 <span>Analytics</span>
               </button>
+              <button
+                onClick={() => setActiveTab('quiz')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                  activeTab === 'quiz'
+                    ? 'bg-accent-primary/20 text-accent-primary'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                aria-current={activeTab === 'quiz' ? 'page' : undefined}
+              >
+                <ClipboardCheck className="w-5 h-5" aria-hidden="true" />
+                <span>Quiz</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('certificate')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                  activeTab === 'certificate'
+                    ? 'bg-accent-primary/20 text-accent-primary'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                aria-current={activeTab === 'certificate' ? 'page' : undefined}
+              >
+                <GraduationCap className="w-5 h-5" aria-hidden="true" />
+                <span>Certificate</span>
+              </button>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -123,6 +176,28 @@ function App() {
                 <TrendingUp className="w-5 h-5" />
                 <span>Analytics</span>
               </button>
+              <button
+                onClick={() => { setActiveTab('quiz'); setMobileMenuOpen(false); }}
+                className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                  activeTab === 'quiz'
+                    ? 'bg-accent-primary/20 text-accent-primary'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <ClipboardCheck className="w-5 h-5" />
+                <span>Quiz</span>
+              </button>
+              <button
+                onClick={() => { setActiveTab('certificate'); setMobileMenuOpen(false); }}
+                className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                  activeTab === 'certificate'
+                    ? 'bg-accent-primary/20 text-accent-primary'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <GraduationCap className="w-5 h-5" />
+                <span>Certificate</span>
+              </button>
             </nav>
           )}
         </div>
@@ -152,6 +227,9 @@ function App() {
                 </p>
               </div>
             </section>
+
+            {/* Progress Bar */}
+            <ProgressBar />
 
             {/* Metrics Grid */}
             <section aria-label="Security metrics overview">
@@ -189,15 +267,37 @@ function App() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {trainingModules.map((module) => (
-                <TrainingCard
-                  key={module.id}
-                  module={module}
-                  onClick={() => setSelectedModule(module)}
-                />
-              ))}
-            </div>
+            <SearchFilter
+              onSearchChange={setSearchTerm}
+              onDifficultyFilter={setDifficultyFilters}
+              onCategoryFilter={setCategoryFilters}
+            />
+
+            {filteredModules.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredModules.map((module) => (
+                  <TrainingCard
+                    key={module.id}
+                    module={module}
+                    onClick={() => setSelectedModule(module)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="glass-card p-12 text-center">
+                <p className="text-gray-400 text-lg">No modules match your search criteria.</p>
+                <button
+                  onClick={() => {
+                    setSearchTerm('');
+                    setDifficultyFilters([]);
+                    setCategoryFilters([]);
+                  }}
+                  className="mt-4 px-6 py-2 bg-accent-primary hover:bg-accent-primary/80 text-white rounded-lg transition-colors"
+                >
+                  Clear Filters
+                </button>
+              </div>
+            )}
           </div>
         )}
 
@@ -239,6 +339,45 @@ function App() {
                   title="Recent Threat Activity"
                 />
               </div>
+            </Suspense>
+          </div>
+        )}
+        {/* Quiz Tab */}
+        {activeTab === 'quiz' && (
+          <div className="space-y-8">
+            <div className="glass-card p-6">
+              <h2 className="text-3xl font-bold gradient-text mb-2">Knowledge Assessment</h2>
+              <p className="text-gray-400">
+                Test your cybersecurity knowledge with our comprehensive quiz. Pass with 70% or higher!
+              </p>
+            </div>
+
+            <Suspense fallback={
+              <div className="flex items-center justify-center p-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-primary"></div>
+              </div>
+            }>
+              <Quiz />
+            </Suspense>
+          </div>
+        )}
+
+        {/* Certificate Tab */}
+        {activeTab === 'certificate' && (
+          <div className="space-y-8">
+            <div className="glass-card p-6">
+              <h2 className="text-3xl font-bold gradient-text mb-2">Your Certificate</h2>
+              <p className="text-gray-400">
+                Earn your certificate by completing all modules and passing the quiz with 80%+
+              </p>
+            </div>
+
+            <Suspense fallback={
+              <div className="flex items-center justify-center p-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-primary"></div>
+              </div>
+            }>
+              <Certificate />
             </Suspense>
           </div>
         )}
@@ -299,6 +438,14 @@ function App() {
         </Suspense>
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <ProgressProvider>
+      <AppContent />
+    </ProgressProvider>
   );
 }
 
