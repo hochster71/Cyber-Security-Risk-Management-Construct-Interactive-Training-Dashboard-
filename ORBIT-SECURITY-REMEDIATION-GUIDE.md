@@ -10,9 +10,9 @@
 
 | Category | Critical | High | Medium | Low | Info |
 |---|---|---|---|---|---|
-| Missing Tests | - | - | 1 | - | - |
+| Missing Tests | 1 | - | 1 | - | - |
 | CI/CD Pipeline Gate | 1 | 1 | - | - | - |
-| Self-Healing / Recurring Issues | - | 2 | 1 | - | 2 |
+| Self-Healing / Recurring Issues | - | 2 | - | - | 2 |
 | Monetization | 2 | 1 | - | - | - |
 
 ---
@@ -25,9 +25,14 @@
 
 ### Findings
 
+#### 🔴 CRITICAL — Zero test coverage — no test files exist in the repository
+- **Location:** _no specific file_
+- **Details:** The entire codebase (30 source files) has no test files. Deploying untested code to production violates every major security standard (OWASP, SOC 2, ISO 27001) and guarantees undetected regressions.
+- **Steps:** Add Jest or Vitest as a dev dependency and write tests for every API route, auth flow, and data-mutation function before any production release. Target ≥80% statement coverage for all business-logic paths.
+
 #### 🟡 MEDIUM — No automated test suite detected
 - **Location:** _no specific file_
-- **Details:** 29 source file(s) found but zero test files detected in the repository. No test runner config (jest.config, vitest.config, etc.) present.
+- **Details:** 30 source file(s) found but zero test files detected in the repository. No test runner config (jest.config, vitest.config, etc.) present.
 - **Steps:** Add a test suite (Jest, Vitest, or Playwright) with at least basic coverage for auth routes, data mutations, and critical business logic.
 
 ---
@@ -47,9 +52,9 @@
 - **Details:** 1 critical issue(s) were detected by upstream agents: .env file committed to repository
 - **Steps:** Resolve all critical findings before this branch can be merged or deployed.
 
-#### 🟠 HIGH — 2 upstream agent(s) failed
+#### 🟠 HIGH — 1 upstream agent(s) failed
 - **Location:** _no specific file_
-- **Details:** Agents that did not pass: security, dast.
+- **Details:** Agents that did not pass: security.
 - **Steps:** Investigate failures in the listed agents before retrying.
 
 ---
@@ -73,11 +78,6 @@
 - **Location:** _no specific file_
 - **Details:** 1 exposed secret(s) detected. ORBIT can automatically rotate webhook secrets; API keys require manual rotation.
 - **Steps:** For ORBIT-managed repo webhook secrets: use PATCH /api/repos/:id with { rotate_secret: true }. For third-party API keys, rotate immediately in the issuing service.
-
-#### 🟡 MEDIUM — High-risk file hotspots detected
-- **Location:** _no specific file_
-- **Details:** 1 file(s) appear in 3+ separate findings this run: next.config.js.
-- **Steps:** Consider refactoring or splitting these files. They are concentration points for risk.
 
 #### ⚪ INFORMATIONAL — Remediation playbook: secret exposure
 - **Location:** _no specific file_
@@ -109,9 +109,9 @@
 - **Details:** This critical finding is a direct buyer blocker for Artificial Intelligence / ML sales. 1 critical issue(s) were detected by upstream agents: .env file committed to repository
 - **Steps:** Resolve all critical findings before this branch can be merged or deployed.
 
-#### 🟠 HIGH — [Revenue Blocker] 2 upstream agent(s) failed
+#### 🟠 HIGH — [Revenue Blocker] 1 upstream agent(s) failed
 - **Location:** _no specific file_
-- **Details:** This high finding is a direct buyer blocker for Artificial Intelligence / ML sales. Agents that did not pass: security, dast.
+- **Details:** This high finding is a direct buyer blocker for Artificial Intelligence / ML sales. Agents that did not pass: security.
 - **Steps:** Investigate failures in the listed agents before retrying.
 
 ---
