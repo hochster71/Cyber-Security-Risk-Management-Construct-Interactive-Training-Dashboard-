@@ -11,8 +11,8 @@
 | Category | Critical | High | Medium | Low | Info |
 |---|---|---|---|---|---|
 | CI/CD Pipeline Gate | 1 | 1 | - | - | - |
-| Monetization | 2 | 1 | - | - | - |
 | Self-Healing / Recurring Issues | - | 2 | 1 | - | 2 |
+| Monetization | 2 | 1 | - | - | - |
 
 ---
 
@@ -38,6 +38,43 @@
 
 ---
 
+## Self-Healing / Recurring Issues
+
+### What to do
+1. Review the recurring issue playbook below.
+2. Identify the root cause (schema migration gap, missing feature flag, race condition).
+3. Add a regression test that catches this scenario.
+4. Update the ORBIT agent configuration to suppress false positives if the finding is not actionable.
+
+### Findings
+
+#### 🟠 HIGH — Recurring unresolved issues
+- **Location:** _no specific file_
+- **Details:** 2 issue(s) that appeared in prior pipeline runs are still present: No automated test suite detected; .env file committed to repository.
+- **Steps:** These issues are not being addressed between pushes. Assign them to a team member or create a tracked GitHub issue for each.
+
+#### 🟠 HIGH — Automated secret rotation recommended
+- **Location:** _no specific file_
+- **Details:** 1 exposed secret(s) detected. ORBIT can automatically rotate webhook secrets; API keys require manual rotation.
+- **Steps:** For ORBIT-managed repo webhook secrets: use PATCH /api/repos/:id with { rotate_secret: true }. For third-party API keys, rotate immediately in the issuing service.
+
+#### 🟡 MEDIUM — High-risk file hotspots detected
+- **Location:** _no specific file_
+- **Details:** 1 file(s) appear in 3+ separate findings this run: next.config.js.
+- **Steps:** Consider refactoring or splitting these files. They are concentration points for risk.
+
+#### ⚪ INFORMATIONAL — Remediation playbook: secret exposure
+- **Location:** _no specific file_
+- **Details:** Auto-generated remediation guide for ".env file committed to repository" and similar findings.
+- **Steps:** 1. Immediately revoke/rotate the exposed credential. 2. Run `git filter-repo --path <file> --invert-paths` to remove from history. 3. Add file to .gitignore. 4. Scan all downstream systems that may have cached the credential. 5. Enable secret scanning alerts in GitHub Settings > Security.
+
+#### ⚪ INFORMATIONAL — Remediation playbook: pipeline gate
+- **Location:** _no specific file_
+- **Details:** Auto-generated remediation guide for "Deployment blocked — critical findings detected" and similar findings.
+- **Steps:** 1. Address all critical and high findings listed by Security and Validator agents. 2. Re-run the pipeline after fixes are committed. 3. Do not merge until the DevSecOps gate reports PASSED.
+
+---
+
 ## Monetization
 
 ### What to do
@@ -60,43 +97,6 @@
 - **Location:** _no specific file_
 - **Details:** This high finding is a direct buyer blocker for Artificial Intelligence / ML sales. Agents that did not pass: security, dast.
 - **Steps:** Investigate failures in the listed agents before retrying.
-
----
-
-## Self-Healing / Recurring Issues
-
-### What to do
-1. Review the recurring issue playbook below.
-2. Identify the root cause (schema migration gap, missing feature flag, race condition).
-3. Add a regression test that catches this scenario.
-4. Update the ORBIT agent configuration to suppress false positives if the finding is not actionable.
-
-### Findings
-
-#### 🟠 HIGH — Recurring unresolved issues
-- **Location:** _no specific file_
-- **Details:** 1 issue(s) that appeared in prior pipeline runs are still present: .env file committed to repository.
-- **Steps:** These issues are not being addressed between pushes. Assign them to a team member or create a tracked GitHub issue for each.
-
-#### 🟠 HIGH — Automated secret rotation recommended
-- **Location:** _no specific file_
-- **Details:** 1 exposed secret(s) detected. ORBIT can automatically rotate webhook secrets; API keys require manual rotation.
-- **Steps:** For ORBIT-managed repo webhook secrets: use PATCH /api/repos/:id with { rotate_secret: true }. For third-party API keys, rotate immediately in the issuing service.
-
-#### 🟡 MEDIUM — High-risk file hotspots detected
-- **Location:** _no specific file_
-- **Details:** 1 file(s) appear in 3+ separate findings this run: next.config.js.
-- **Steps:** Consider refactoring or splitting these files. They are concentration points for risk.
-
-#### ⚪ INFORMATIONAL — Remediation playbook: secret exposure
-- **Location:** _no specific file_
-- **Details:** Auto-generated remediation guide for ".env file committed to repository" and similar findings.
-- **Steps:** 1. Immediately revoke/rotate the exposed credential. 2. Run `git filter-repo --path <file> --invert-paths` to remove from history. 3. Add file to .gitignore. 4. Scan all downstream systems that may have cached the credential. 5. Enable secret scanning alerts in GitHub Settings > Security.
-
-#### ⚪ INFORMATIONAL — Remediation playbook: pipeline gate
-- **Location:** _no specific file_
-- **Details:** Auto-generated remediation guide for "Deployment blocked — critical findings detected" and similar findings.
-- **Steps:** 1. Address all critical and high findings listed by Security and Validator agents. 2. Re-run the pipeline after fixes are committed. 3. Do not merge until the DevSecOps gate reports PASSED.
 
 ---
 
